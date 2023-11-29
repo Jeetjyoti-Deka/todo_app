@@ -14,7 +14,7 @@ export default function TodoList() {
       return;
     }
 
-    const request = indexedDB.open("TodoDatabase", 1);
+    const request = indexedDB.open("TodoDatabase", 2);
 
     request.onerror = function (event) {
       console.error("An error occurred with IndexedDB");
