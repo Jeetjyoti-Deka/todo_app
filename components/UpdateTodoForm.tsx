@@ -2,8 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { CalendarIcon } from "lucide-react";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -22,8 +24,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { TodoType } from "@/lib/types";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn, formatDate } from "@/lib/utils";
+import { format } from "date-fns";
 
 const formSchema = z.object({
   title: z.string().min(10, {
@@ -33,6 +40,9 @@ const formSchema = z.object({
     message: "Description must be at least 50 characters.",
   }),
   priority: z.number(),
+  due: z.date({
+    required_error: "A date of birth is required.",
+  }),
 });
 
 const UpdateTodoForm = ({ id }: { id: string }) => {
@@ -44,6 +54,7 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
       title: "",
       description: "",
       priority: 1,
+      due: undefined,
     },
   });
 
@@ -111,7 +122,11 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
 
       const store = transaction.objectStore("todos");
 
-      store.put({ ...values, due: 1701225616758, id: id });
+      store.put({
+        ...values,
+        due: formatDate(values.due),
+        id: id,
+      });
 
       transaction.oncomplete = function () {
         db.close();
@@ -183,6 +198,63 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
                   </SelectContent>
                 </Select>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="due"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Due Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => {
+                      if (
+                        new Date(date).getFullYear() > new Date().getFullYear() // if future year do not disable
+                      ) {
+                        return false;
+                      }
+                      if (
+                        new Date(date).getMonth() === new Date().getMonth() &&
+                        new Date(date).getDate() >= new Date().getDate() // if month is same and the date is equal or greater then do not disable
+                      ) {
+                        return false;
+                      } else if (
+                        new Date(date).getMonth() > new Date().getMonth() // if future month do not disable
+                      ) {
+                        return false;
+                      } else {
+                        return true;
+                      }
+                    }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

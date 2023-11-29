@@ -8,11 +8,12 @@ import {
 import TrashIcon from "./icons/TrashIcon";
 import PriorityBar from "./PriorityBar";
 import Link from "next/link";
+import { formatDate } from "@/lib/utils";
 
 type TodoProps = {
   title: string;
   description: string;
-  due: Date;
+  due: string;
   priority: number;
   id: number;
 };
@@ -37,7 +38,7 @@ const Todo = ({ title, description, due, priority, id }: TodoProps) => {
         <p className="line-clamp-4 text-gray-400">{description}</p>
       </CardContent>
       <CardFooter className="flex items-center justify-between">
-        <p className="text-red-400">Due Date: {due.toString()}</p>
+        <p className="text-red-400">Due Date: {due}</p>
         <TrashIcon id={id} />
       </CardFooter>
     </Card>
