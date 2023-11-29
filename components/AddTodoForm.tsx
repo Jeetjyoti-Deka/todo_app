@@ -43,6 +43,7 @@ const formSchema = z.object({
   due: z.date({
     required_error: "A date of birth is required.",
   }),
+  label: z.string(),
 });
 
 const AddTodoForm = () => {
@@ -164,63 +165,92 @@ const AddTodoForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="due"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Due Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) => {
-                      if (
-                        new Date(date).getFullYear() > new Date().getFullYear() // if future year do not disable
-                      ) {
-                        return false;
-                      }
-                      if (
-                        new Date(date).getMonth() === new Date().getMonth() &&
-                        new Date(date).getDate() >= new Date().getDate() // if month is same and the date is equal or greater then do not disable
-                      ) {
-                        return false;
-                      } else if (
-                        new Date(date).getMonth() > new Date().getMonth() // if future month do not disable
-                      ) {
-                        return false;
-                      } else {
-                        return true;
-                      }
+        <div className="flex items-center justify-center gap-4">
+          <FormField
+            control={form.control}
+            name="due"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Due Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-[240px] pl-3 text-left font-normal border-none",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => {
+                        if (
+                          new Date(date).getFullYear() >
+                          new Date().getFullYear() // if future year do not disable
+                        ) {
+                          return false;
+                        }
+                        if (
+                          new Date(date).getMonth() === new Date().getMonth() &&
+                          new Date(date).getDate() >= new Date().getDate() // if month is same and the date is equal or greater then do not disable
+                        ) {
+                          return false;
+                        } else if (
+                          new Date(date).getMonth() > new Date().getMonth() // if future month do not disable
+                        ) {
+                          return false;
+                        } else {
+                          return true;
+                        }
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="label"
+            render={({ field }) => (
+              <FormItem className="flex-1 flex flex-col">
+                <FormLabel>Label</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={(e) => {
+                      field.onChange(Number(e));
                     }}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Label" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="not started">Not Started</SelectItem>
+                      <SelectItem value="started">Started</SelectItem>
+                      <SelectItem value="completed">Completed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
