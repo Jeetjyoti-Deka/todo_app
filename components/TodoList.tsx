@@ -47,7 +47,6 @@ export default function TodoList() {
 
       idQuery.onsuccess = function () {
         setTodos(idQuery.result);
-        console.log("idQuery", idQuery.result);
       };
 
       transaction.oncomplete = function () {
@@ -56,18 +55,18 @@ export default function TodoList() {
     };
   }, []);
   return (
-    <div>
+    <>
       {todos.length > 0 ? (
-        <div>
+        <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
           {todos.map((todo) => (
             <Todo key={todo.id} {...todo} />
           ))}
         </div>
       ) : (
-        <div>
+        <div className="min-h-screen flex items-center justify-center">
           <h2>Nothing to be done. Add more todos...</h2>
         </div>
       )}
-    </div>
+    </>
   );
 }

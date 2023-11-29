@@ -18,8 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className)}>
-        <div className="relative flex">
+      <body className={cn("overflow-x-hidden", inter.className)}>
+        <div className="relative flex justify-start">
           <LeftSidebar />
           {children}
         </div>

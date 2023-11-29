@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const TrashIcon = ({ id }: { id: number }) => {
   const router = useRouter();
-  const deleteTodo = (id: number) => {
+  const deleteTodo = () => {
     const indexedDB = window.indexedDB;
 
     if (!indexedDB) {
@@ -36,7 +36,6 @@ const TrashIcon = ({ id }: { id: number }) => {
       deleteTodoById.onsuccess = function () {
         console.log("Todo Removed");
 
-        router.refresh();
         // TODO: make a toast for this notification
       };
 
@@ -45,10 +44,11 @@ const TrashIcon = ({ id }: { id: number }) => {
       };
     };
 
+    router.push("/");
     console.log(id);
   };
   return (
-    <div className="cursor-pointer" onClick={() => deleteTodo(id)}>
+    <div className="cursor-pointer" onClick={deleteTodo}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

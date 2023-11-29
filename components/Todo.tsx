@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import TrashIcon from "./icons/TrashIcon";
 import PriorityBar from "./PriorityBar";
+import Link from "next/link";
 
 type TodoProps = {
   title: string;
@@ -18,13 +19,16 @@ type TodoProps = {
 
 const Todo = ({ title, description, due, priority, id }: TodoProps) => {
   return (
-    <Card className="bg-gray-800 max-w-lg">
+    <Card className="bg-gray-800 max-w-lg border-none flex flex-col justify-between">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
-            <h2 className="line-clamp-1 cursor-pointer text-blue-600 hover:underline">
+            <Link
+              href={`/todos/${id}`}
+              className="line-clamp-1 cursor-pointer text-blue-600 hover:underline"
+            >
               {title}
-            </h2>
+            </Link>
             <PriorityBar priority={priority} />
           </div>
         </CardTitle>

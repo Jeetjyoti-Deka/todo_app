@@ -22,6 +22,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { TodoType } from "@/lib/types";
 
 const formSchema = z.object({
   title: z.string().min(10, {
@@ -33,9 +35,9 @@ const formSchema = z.object({
   priority: z.number(),
 });
 
-const AddTodoForm = () => {
+const UpdateTodoForm = ({ id }: { id: string }) => {
   const router = useRouter();
-  // 1. Define your form.
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,10 +47,7 @@ const AddTodoForm = () => {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  function handleDelete() {
     const indexedDB = window.indexedDB;
 
     if (!indexedDB) {
@@ -73,15 +72,52 @@ const AddTodoForm = () => {
 
       const store = transaction.objectStore("todos");
 
-      store.put({ ...values, due: 1701225616758, id: crypto.randomUUID() });
+      const deleteTodoById = store.delete(id);
+
+      deleteTodoById.onsuccess = function () {
+        console.log("Todo Removed");
+      };
+
+      transaction.oncomplete = function () {
+        db.close();
+      };
+    };
+
+    router.push("/");
+  }
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const indexedDB = window.indexedDB;
+
+    if (!indexedDB) {
+      console.log("IndexedDB could not be found in this browser.");
+      return;
+    }
+
+    const request = indexedDB.open("TodoDatabase");
+
+    request.onerror = function (event) {
+      console.error("An error occurred with IndexedDB");
+      console.error(event);
+      return;
+    };
+
+    request.onsuccess = function () {
+      console.log("Database opened successfully");
+
+      const db = request.result;
+
+      const transaction = db.transaction("todos", "readwrite");
+
+      const store = transaction.objectStore("todos");
+
+      store.put({ ...values, due: 1701225616758, id: id });
 
       transaction.oncomplete = function () {
         db.close();
         router.push("/");
       };
     };
-
-    console.log(values);
   }
   return (
     <Form {...form}>
@@ -151,9 +187,18 @@ const AddTodoForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div className="w-full flex items-center justify-between">
+          <Button type="submit">Update</Button>
+          <Button
+            variant="destructive"
+            type="button"
+            onClick={() => handleDelete()}
+          >
+            Delete
+          </Button>
+        </div>
       </form>
     </Form>
   );
 };
-export default AddTodoForm;
+export default UpdateTodoForm;
