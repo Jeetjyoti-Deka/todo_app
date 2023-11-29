@@ -56,6 +56,7 @@ const AddTodoForm = () => {
       description: "",
       priority: 1,
       due: undefined,
+      label: "not started",
     },
   });
 
@@ -165,7 +166,7 @@ const AddTodoForm = () => {
             </FormItem>
           )}
         />
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-start justify-center gap-4">
           <FormField
             control={form.control}
             name="due"
@@ -233,7 +234,7 @@ const AddTodoForm = () => {
                 <FormControl>
                   <Select
                     onValueChange={(e) => {
-                      field.onChange(Number(e));
+                      field.onChange(e.toString());
                     }}
                   >
                     <SelectTrigger className="w-full">

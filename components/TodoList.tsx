@@ -14,7 +14,7 @@ export default function TodoList() {
       return;
     }
 
-    const request = indexedDB.open("TodoDatabase", 2);
+    const request = indexedDB.open("TodoDatabase", 3);
 
     request.onerror = function (event) {
       console.error("An error occurred with IndexedDB");
@@ -29,6 +29,7 @@ export default function TodoList() {
       store.createIndex("title", ["title"], { unique: false });
       store.createIndex("priority", ["priority"], { unique: false });
       store.createIndex("description", ["description"], { unique: false });
+      store.createIndex("label", ["label"], { unique: false });
     };
 
     request.onsuccess = function () {
@@ -42,6 +43,7 @@ export default function TodoList() {
       const titleIndex = store.index("title");
       const priority = store.index("priority");
       const description = store.index("description");
+      const label = store.index("label");
 
       const idQuery = store.getAll();
 
