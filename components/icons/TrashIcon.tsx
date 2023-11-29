@@ -1,47 +1,52 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 // TODO: check if this function works
-const deleteTodo = (id: number) => {
-  const indexedDB = window.indexedDB;
-
-  if (!indexedDB) {
-    console.log("IndexedDB could not be found in this browser.");
-    return;
-  }
-
-  const request = indexedDB.open("TodoDatabase");
-
-  request.onerror = function (event) {
-    console.error("An error occurred with IndexedDB");
-    console.error(event);
-    return;
-  };
-
-  request.onsuccess = function () {
-    console.log("Database opened successfully");
-
-    const db = request.result;
-
-    const transaction = db.transaction("todos", "readwrite");
-
-    const store = transaction.objectStore("todos");
-
-    const deleteTodoById = store.delete(id);
-
-    deleteTodoById.onsuccess = function () {
-      console.log("Todo Removed");
-      // TODO: make a toast for this notification
-    };
-
-    transaction.oncomplete = function () {
-      db.close();
-    };
-  };
-
-  console.log(id);
-};
 
 const TrashIcon = ({ id }: { id: number }) => {
+  const router = useRouter();
+  const deleteTodo = (id: number) => {
+    const indexedDB = window.indexedDB;
+
+    if (!indexedDB) {
+      console.log("IndexedDB could not be found in this browser.");
+      return;
+    }
+
+    const request = indexedDB.open("TodoDatabase");
+
+    request.onerror = function (event) {
+      console.error("An error occurred with IndexedDB");
+      console.error(event);
+      return;
+    };
+
+    request.onsuccess = function () {
+      console.log("Database opened successfully");
+
+      const db = request.result;
+
+      const transaction = db.transaction("todos", "readwrite");
+
+      const store = transaction.objectStore("todos");
+
+      const deleteTodoById = store.delete(id);
+
+      deleteTodoById.onsuccess = function () {
+        console.log("Todo Removed");
+
+        router.refresh();
+        // TODO: make a toast for this notification
+      };
+
+      transaction.oncomplete = function () {
+        db.close();
+      };
+    };
+
+    console.log(id);
+  };
   return (
     <div className="cursor-pointer" onClick={() => deleteTodo(id)}>
       <svg

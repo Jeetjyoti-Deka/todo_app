@@ -2,7 +2,7 @@ import AddTodoForm from "@/components/AddTodoForm";
 
 const AddTodo = () => {
   return (
-    <div>
+    <div className="bg-slate-500 flex-1">
       <AddTodoForm />
     </div>
   );
