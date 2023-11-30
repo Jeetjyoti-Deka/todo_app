@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 
 export default function TodoList() {
   const [todos, setTodos] = useState<any[]>([]);
+  const [startedTodos, setStartedTodos] = useState<any[]>([]);
+  const [notStartedTodos, setNotStartedTodos] = useState<any[]>([]);
+  const [completedTodos, setCompletedTodos] = useState<any[]>([]);
 
   useEffect(() => {
     const indexedDB = window.indexedDB;
@@ -45,6 +48,22 @@ export default function TodoList() {
       const description = store.index("description");
       const label = store.index("label");
 
+      const notStartedTodos = label.getAll(["not started"]);
+      const completedTodos = label.getAll(["completed"]);
+      const startedTodos = label.getAll(["started"]);
+
+      notStartedTodos.onsuccess = function () {
+        setNotStartedTodos(notStartedTodos.result);
+      };
+
+      completedTodos.onsuccess = function () {
+        setCompletedTodos(completedTodos.result);
+      };
+
+      startedTodos.onsuccess = function () {
+        setStartedTodos(startedTodos.result);
+      };
+
       const idQuery = store.getAll();
 
       idQuery.onsuccess = function () {
@@ -57,18 +76,49 @@ export default function TodoList() {
     };
   }, []);
   return (
-    <>
-      {todos.length > 0 ? (
-        <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
-          {todos.map((todo) => (
-            <Todo key={todo.id} {...todo} />
-          ))}
-        </div>
-      ) : (
-        <div className="min-h-screen flex items-center justify-center">
-          <h2>Nothing to be done. Add more todos...</h2>
-        </div>
-      )}
-    </>
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-xl font-semibold underline">Not Started</h1>
+        {notStartedTodos.length > 0 ? (
+          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+            {notStartedTodos.map((todo) => (
+              <Todo key={todo.id} {...todo} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-40 flex items-center justify-start">
+            <h2>Nothing to be done. Add more todos...</h2>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-xl font-semibold underline">Started</h1>
+        {startedTodos.length > 0 ? (
+          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+            {startedTodos.map((todo) => (
+              <Todo key={todo.id} {...todo} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-40 flex items-center justify-start">
+            <h2>Nothing to be done. Add more todos...</h2>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-xl font-semibold underline">Completed</h1>
+        {completedTodos.length > 0 ? (
+          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+            {completedTodos.map((todo) => (
+              <Todo key={todo.id} {...todo} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-40 flex items-center justify-start">
+            <h2>Nothing to be done. Add more todos...</h2>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
