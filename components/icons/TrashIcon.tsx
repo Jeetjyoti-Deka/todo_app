@@ -1,11 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-// TODO: check if this function works
-
 const TrashIcon = ({ id }: { id: number }) => {
-  const router = useRouter();
   const deleteTodo = () => {
     const indexedDB = window.indexedDB;
 
@@ -44,7 +39,7 @@ const TrashIcon = ({ id }: { id: number }) => {
       };
     };
 
-    router.push("/");
+    location.reload();
     console.log(id);
   };
   return (
