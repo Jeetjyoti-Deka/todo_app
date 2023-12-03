@@ -31,6 +31,8 @@ import {
 } from "@/components/ui/popover";
 import { cn, formatDate } from "@/lib/utils";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import { TodoType } from "@/lib/types";
 
 const formSchema = z.object({
   title: z.string().min(10, {
@@ -54,11 +56,57 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
     defaultValues: {
       title: "",
       description: "",
-      priority: 1,
+      priority: undefined,
       due: undefined,
-      label: "not started",
+      label: "",
     },
   });
+
+  useEffect(() => {
+    const indexedDB = window.indexedDB;
+
+    if (!indexedDB) {
+      console.log("IndexedDB could not be found in this browser.");
+      return;
+    }
+
+    const request = indexedDB.open("TodoDatabase");
+
+    request.onerror = function (event) {
+      console.error("An error occurred with IndexedDB");
+      console.error(event);
+      return;
+    };
+
+    request.onsuccess = function () {
+      console.log("Database opened successfully");
+
+      const db = request.result;
+
+      const transaction = db.transaction("todos", "readwrite");
+
+      const store = transaction.objectStore("todos");
+
+      const retrieved_todo = store.get(id);
+
+      retrieved_todo.onsuccess = function () {
+        // console.log(retrieved_todo.result);
+
+        // const new
+
+        form.reset({
+          ...retrieved_todo.result,
+          due: new Date(),
+        });
+
+        console.log(retrieved_todo.result);
+      };
+
+      transaction.oncomplete = function () {
+        db.close();
+      };
+    };
+  }, [id]);
 
   function handleDelete() {
     const indexedDB = window.indexedDB;
@@ -189,7 +237,7 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
                   }}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Priority" />
+                    <SelectValue placeholder={field.value || "Priority"} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="1">1</SelectItem>
@@ -276,7 +324,7 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
                     }}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Label" />
+                      <SelectValue placeholder={field.value || "Label"} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="not started">Not Started</SelectItem>

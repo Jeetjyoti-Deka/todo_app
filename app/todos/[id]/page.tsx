@@ -61,7 +61,7 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
         <p className="max-w-2xl text-slate-500">{todo?.description}</p>
         <div className="flex items-center justify-between mt-10">
           <div>
-            <p>Due: {todo?.due}</p>
+            <p className="text-red-500 font-semibold">Due: {todo?.due}</p>
           </div>
           <div>
             {/* bg-gray-900 text-gray-200 */}

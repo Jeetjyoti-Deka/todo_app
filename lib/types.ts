@@ -4,4 +4,5 @@ export type TodoType = {
   priority: number;
   due: string;
   id: string;
+  label: string;
 };
