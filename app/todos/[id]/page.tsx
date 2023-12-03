@@ -39,6 +39,7 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
 
       idQuery.onsuccess = function () {
         setTodo(idQuery.result);
+
         // TODO: make a toast for this notification
       };
 
@@ -56,7 +57,7 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
             {todo?.title}
           </h1>
           {/* TODO: pass isCompleted as prop to the completed component */}
-          <Completed />
+          <Completed isCompleted={todo?.label === "completed"} todo={todo!} />
         </div>
         <p className="max-w-2xl text-slate-500">{todo?.description}</p>
         <div className="flex items-center justify-between mt-10">

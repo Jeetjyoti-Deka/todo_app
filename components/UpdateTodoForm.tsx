@@ -32,7 +32,6 @@ import {
 import { cn, formatDate } from "@/lib/utils";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { TodoType } from "@/lib/types";
 
 const formSchema = z.object({
   title: z.string().min(10, {
