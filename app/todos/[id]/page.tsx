@@ -49,7 +49,7 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
   }, [params.id]);
 
   return (
-    <div className="flex-1 flex justify-center items-center bg-slate-100">
+    <div className="w-full min-h-screen lg:flex-1 px-6 py-10 lg:px-0 flex justify-center items-center bg-slate-100">
       <div className="flex flex-col text-center">
         <div className="flex items-center justify-center gap-2 mb-10">
           <h1 className="text-3xl font-semibold underline text-slate-900 capitalize">
@@ -57,7 +57,7 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
           </h1>
           <Completed isCompleted={todo?.label === "completed"} todo={todo!} />
         </div>
-        <p className="max-w-2xl text-slate-500">{todo?.description}</p>
+        <p className="max-w-2xl text-slate-500 mx-auto">{todo?.description}</p>
         <div className="flex items-center justify-between mt-10">
           <div>
             <p className="text-red-500 font-semibold">Due: {todo?.due}</p>

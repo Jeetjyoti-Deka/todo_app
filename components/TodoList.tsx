@@ -76,11 +76,11 @@ export default function TodoList() {
     };
   }, []);
   return (
-    <div className="flex flex-col ml-4 gap-10 my-10">
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-10 my-10">
+      <div className="flex flex-col gap-4 items-center">
         <h1 className="text-xl font-semibold underline">Not Started</h1>
         {notStartedTodos.length > 0 ? (
-          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7">
             {notStartedTodos.map((todo) => (
               <Todo key={todo.id} {...todo} />
             ))}
@@ -91,10 +91,10 @@ export default function TodoList() {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 items-center">
         <h1 className="text-xl font-semibold underline">Started</h1>
         {startedTodos.length > 0 ? (
-          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7">
             {startedTodos.map((todo) => (
               <Todo key={todo.id} {...todo} />
             ))}
@@ -105,10 +105,10 @@ export default function TodoList() {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4  items-center">
         <h1 className="text-xl font-semibold underline">Completed</h1>
         {completedTodos.length > 0 ? (
-          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7">
             {completedTodos.map((todo) => (
               <Todo key={todo.id} {...todo} />
             ))}

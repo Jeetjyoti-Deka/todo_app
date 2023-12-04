@@ -40,7 +40,7 @@ export default function SearchForm() {
       <div className="w-full bg-transparent flex items-center justify-center py-4">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-1/2"
+          className="space-y-8 w-full md:w-1/2"
         >
           <FormField
             control={form.control}

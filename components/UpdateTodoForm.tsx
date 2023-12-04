@@ -183,7 +183,7 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 w-1/2 mx-auto"
+        className="space-y-8 w-full md:w-1/2 mx-auto flex flex-col"
       >
         <FormField
           control={form.control}
@@ -247,12 +247,12 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
             </FormItem>
           )}
         />
-        <div className="flex items-start justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-start justify-center gap-4">
           <FormField
             control={form.control}
             name="due"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col flex-1 w-full">
                 <FormLabel>Due Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -260,7 +260,7 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-[240px] pl-3 text-left font-normal border-none",
+                          "w-full sm:w-[240px] pl-3 text-left font-normal border-none",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -310,7 +310,7 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
             control={form.control}
             name="label"
             render={({ field }) => (
-              <FormItem className="flex-1 flex flex-col">
+              <FormItem className="w-full flex flex-col">
                 <FormLabel>Label</FormLabel>
                 <FormControl>
                   <Select

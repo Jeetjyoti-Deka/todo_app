@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={cn("overflow-x-hidden", inter.className)}>
+    <html lang="en" className="h-full">
+      <body className={cn("overflow-x-hidden h-full", inter.className)}>
         <div className="relative flex justify-start">
           <LeftSidebar />
           {children}
