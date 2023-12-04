@@ -69,21 +69,19 @@ const SearchPage = () => {
   }, [query]);
 
   return (
-    <div className="flex-1 flex justify-center bg-slate-100">
-      <div className="w-full">
-        <SearchForm />
-        {todos.length > 0 ? (
-          <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
-            {todos.map((todo) => (
-              <Todo {...todo} key={todo.id} />
-            ))}
-          </div>
-        ) : (
-          <div className="w-full flex items-center justify-center text-red-500">
-            No Results Found
-          </div>
-        )}
-      </div>
+    <div className="flex-1 min-h-screen flex flex-col justify-start items-center px-4 bg-slate-100">
+      <SearchForm />
+      {todos.length > 0 ? (
+        <div className="grid grid-flow-row grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-3 2xl:gap-7 ml-4">
+          {todos.map((todo) => (
+            <Todo {...todo} key={todo.id} />
+          ))}
+        </div>
+      ) : (
+        <div className="w-full flex items-center justify-center text-red-500">
+          No Results Found
+        </div>
+      )}
     </div>
   );
 };

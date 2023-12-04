@@ -1,5 +1,6 @@
 "use client";
 
+import LeftSidebarButton from "@/components/LeftSidebarButton";
 import Completed from "@/components/icons/Completed";
 import { buttonVariants } from "@/components/ui/button";
 import { TodoType } from "@/lib/types";
@@ -49,9 +50,12 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
   }, [params.id]);
 
   return (
-    <div className="w-full min-h-screen lg:flex-1 px-6 py-10 lg:px-0 flex justify-center items-center bg-slate-100">
+    <div className="w-full min-h-screen lg:flex-1 px-6 py-14 lg:px-0 flex justify-center items-center bg-slate-100">
       <div className="flex flex-col text-center">
         <div className="flex items-center justify-center gap-2 mb-10">
+          <div className="absolute top-4 left-4">
+            <LeftSidebarButton />
+          </div>
           <h1 className="text-3xl font-semibold underline text-slate-900 capitalize">
             {todo?.title}
           </h1>

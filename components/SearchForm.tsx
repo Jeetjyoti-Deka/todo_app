@@ -1,4 +1,5 @@
 "use client";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import LeftSidebar from "./LeftSidebar";
+import Link from "next/link";
+import AddIcon from "./icons/AddIcon";
+import HomeIcon from "./icons/HomeIcon";
+import LeftSidebarButton from "./LeftSidebarButton";
 
 const formSchema = z.object({
   search: z.string().min(2, {
@@ -36,52 +42,57 @@ export default function SearchForm() {
   }
 
   return (
-    <Form {...form}>
-      <div className="w-full bg-transparent flex items-center justify-center py-4">
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full md:w-1/2"
-        >
-          <FormField
-            control={form.control}
-            name="search"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      placeholder="Seach Todos..."
-                      {...field}
-                      className="w-full bg-slate-600 outline-none border-none focus-visible:ring-slate-900 focus:text-gray-300"
-                    />
-                    <Button
-                      type="submit"
-                      variant="ghost"
-                      className="absolute top-0 right-0 hover:bg-slate-700 "
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6 invert"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                        />
-                      </svg>
-                    </Button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </form>
+    <div className="w-full flex items-center gap-4">
+      <div className="w-10 h-10">
+        <LeftSidebarButton />
       </div>
-    </Form>
+      <Form {...form}>
+        <div className="w-full bg-transparent flex items-center justify-center py-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 w-full md:w-1/2"
+          >
+            <FormField
+              control={form.control}
+              name="search"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        placeholder="Seach Todos..."
+                        {...field}
+                        className="w-full bg-slate-600 outline-none border-none focus-visible:ring-slate-900 focus:text-gray-300"
+                      />
+                      <Button
+                        type="submit"
+                        variant="ghost"
+                        className="absolute top-0 right-0 hover:bg-slate-700 "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6 invert"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                          />
+                        </svg>
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </div>
+      </Form>
+    </div>
   );
 }
