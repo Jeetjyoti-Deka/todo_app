@@ -26,7 +26,7 @@ const Todo = ({ title, description, due, priority, id }: TodoProps) => {
           <div className="flex items-center justify-between">
             <Link
               href={`/todos/${id}`}
-              className="line-clamp-1 cursor-pointer text-blue-600 hover:underline"
+              className="line-clamp-1 cursor-pointer text-blue-600 hover:underline capitalize"
             >
               {title}
             </Link>

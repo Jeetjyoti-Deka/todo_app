@@ -1,9 +1,8 @@
 "use client";
 
 import Completed from "@/components/icons/Completed";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { TodoType } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -53,10 +52,9 @@ const TodoDetailPage = ({ params }: { params: { id: string } }) => {
     <div className="flex-1 flex justify-center items-center bg-slate-100">
       <div className="flex flex-col text-center">
         <div className="flex items-center justify-center gap-2 mb-10">
-          <h1 className="text-3xl font-semibold underline text-slate-900">
+          <h1 className="text-3xl font-semibold underline text-slate-900 capitalize">
             {todo?.title}
           </h1>
-          {/* TODO: pass isCompleted as prop to the completed component */}
           <Completed isCompleted={todo?.label === "completed"} todo={todo!} />
         </div>
         <p className="max-w-2xl text-slate-500">{todo?.description}</p>

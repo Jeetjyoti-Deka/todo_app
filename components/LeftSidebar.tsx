@@ -5,7 +5,7 @@ import HomeIcon from "./icons/HomeIcon";
 const LeftSidebar = () => {
   return (
     <div className=" bg-gray-800 max-w-[280px] flex-1 flex flex-col items-center min-h-screen text-white">
-      <h2 className="text-3xl mt-4">Menu</h2>
+      <h2 className="text-3xl mt-4">TaskFlow</h2>
       <div className="flex flex-col items-center gap-4 mt-10 w-full max-w-[80%]">
         <Link
           href="/todos/add"

@@ -88,6 +88,8 @@ const AddTodoForm = () => {
 
       store.put({
         ...values,
+        title: values.title.toLowerCase(),
+        description: values.description.toLowerCase(),
         due: formatDate(values.due),
         id: crypto.randomUUID(),
       });

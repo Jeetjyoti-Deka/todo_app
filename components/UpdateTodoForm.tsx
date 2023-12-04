@@ -93,8 +93,6 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
           ...retrieved_todo.result,
           due: new Date(),
         });
-
-        console.log(retrieved_todo.result);
       };
 
       transaction.oncomplete = function () {
@@ -169,6 +167,8 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
 
       store.put({
         ...values,
+        title: values.title.toLowerCase(),
+        description: values.description.toLowerCase(),
         due: formatDate(values.due),
         id: id,
       });
