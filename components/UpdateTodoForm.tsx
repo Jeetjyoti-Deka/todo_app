@@ -89,10 +89,6 @@ const UpdateTodoForm = ({ id }: { id: string }) => {
       const retrieved_todo = store.get(id);
 
       retrieved_todo.onsuccess = function () {
-        // console.log(retrieved_todo.result);
-
-        // const new
-
         form.reset({
           ...retrieved_todo.result,
           due: new Date(),

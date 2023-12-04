@@ -76,7 +76,7 @@ export default function TodoList() {
     };
   }, []);
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col ml-4 gap-10 my-10">
       <div className="flex flex-col gap-4">
         <h1 className="text-xl font-semibold underline">Not Started</h1>
         {notStartedTodos.length > 0 ? (
